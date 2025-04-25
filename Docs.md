@@ -6,8 +6,7 @@
  ・１章-概要説明<br>
  ・２章-実演しながら使いから紹介<br>
  ・３章-まとめ<br>
- - プレゼンの後にgithubの専用レポジトリの中のデータをつかって各々実践<br>
- ➡ **自宅サーバーに専用のVMを用意したので、興味がある人は実際のサーバーを使ってデプロイできます！**
+
 
 ## 0-2 ゴール
 
@@ -18,7 +17,8 @@
 - 仮想マシンとの違い
 - コンテナ技術がもたらす開発・運用へのインパクト
 - 開発現場やチームでの活用イメージ
-
+ - プレゼンの後にgithubの専用レポジトリの中のデータをつかって各々実践<br>
+ ➡ **自宅サーバーに専用のVMを用意したので、興味がある人は実際のサーバーを使ってデプロイできます！**
 
 ---
 
@@ -123,3 +123,117 @@
 
 ---
 
+# ２章Docker実演
+
+## 🎯 実演の目的
+
+- macOS上でNext.jsアプリをDocker化して起動
+- DebianサーバーにDockerでデプロイ
+- クライアントとサーバーの環境差を吸収できることを確認
+
+---
+
+## 2-1. 前提環境
+
+### クライアント（macOS）
+
+- Docker Desktop インストール済み
+- VSCode推奨
+
+### サーバー（Debian）
+
+- Docker + Docker Compose インストール済み
+- SSH接続できる状態
+
+---
+
+## 2-2. プロジェクト作成（macOS上）
+
+```bash
+npx create-next-app my-next-app
+cd my-next-app
+
+```
+
+
+## 2-3. Dockerfileの作成
+
+Next.jsアプリをDockerで動かすには、まず `Dockerfile` を用意します。
+
+このファイルでは、アプリをどういう環境で、どんな手順でセットアップし、どのコマンドで起動するかを記述します。
+
+以下がDockerfile
+
+```Dockerfile
+# Node.jsの軽量版イメージをベースにする（alpineは最小構成）
+FROM node:18-alpine
+
+# アプリケーションを配置するディレクトリを作成
+WORKDIR /app
+
+# パッケージ定義ファイルをコピー
+COPY package*.json ./
+
+# 依存関係をインストール
+RUN npm install
+
+# 残りのアプリケーションのコードを全てコピー
+COPY . .
+
+# アプリが使用するポート（Next.jsのデフォルトは3000）
+EXPOSE 3000
+
+# アプリを開発モードで起動
+CMD ["npm", "run", "dev"]
+
+```
+## 2-4 dockerignoreの作成
+.dockerignore ファイルは、Dockerに「コピーしなくていいファイル」を指示するためのファイルです。
+
+特に開発中は node_modules や .next ディレクトリなど、イメージ内に不要な一時ファイルを除外してビルドを軽量に保ちます。
+
+
+## 2-5. Dockerでビルド＆実行（ローカル：macOS）
+
+作成したDockerfileを使って、ローカルでNext.jsアプリをDockerイメージにビルドし、実行します。
+
+### イメージのビルド
+
+```bash
+docker build -t my-next-app .
+```
+
+
+コンテナの起動
+``` bash
+docker run -p 3000:3000 my-next-app
+-p 3000:3000：ホストの3000番ポートを、コンテナの3000番ポートにマッピングします。
+```
+ブラウザで以下にアクセスして確認：
+http://localhost:3000
+## 2-6. Docker Composeの導入
+
+Docker Composeを使うと、複数の設定（ビルド・ポート・ボリューム・環境変数など）をdocker-compose.ymlファイルで一括管理できる。
+
+docker-compose.yml の作成
+
+```docker-compose.yml
+version: "3.8"
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+
+```
+docker-composeの起動
+```bash
+docker compose up
+```
+## 2-7 サーバー（Debian）へのデプロイ
