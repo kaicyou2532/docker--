@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Docs.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="docker%E8%AC%9B%E5%BA%A7">Docker講座</h1>
+<h2 id="0-1-%E3%81%93%E3%81%AEtech%E3%83%97%E3%83%AC%E3%82%BC%E3%83%B3%E3%81%AE%E9%80%B2%E3%82%81%E6%96%B9">0-1 このtechプレゼンの進め方</h2>
+<ul>
+<li>40分のプレゼン<br>
+・０章-イントロダクション <br>
+・１章-概要説明<br>
+・２章-実演しながら使いから紹介<br>
+・３章-まとめ<br></li>
+</ul>
+<h2 id="0-2-%E3%82%B4%E3%83%BC%E3%83%AB">0-2 ゴール</h2>
+<p>この40分間のTechプレゼンで、次のことが理解できるようになります：</p>
+<ul>
+<li>Dockerが解決する課題</li>
+<li>Dockerの基本的な仕組みと構成要素</li>
+<li>仮想マシンとの違い</li>
+<li>コンテナ技術がもたらす開発・運用へのインパクト</li>
+<li>開発現場やチームでの活用イメージ</li>
+<li>プレゼンの後にgithubの専用レポジトリの中のデータをつかって各々実践<br>
+➡ <strong>自宅サーバーに専用のVMを用意したので、興味がある人は実際のサーバーを使ってデプロイできます！</strong></li>
+</ul>
+<hr>
+<h2 id="1-1-%E3%81%9D%E3%82%82%E3%81%9D%E3%82%82docker%E3%81%A8%E3%81%AF">1-1. そもそも「Docker」とは？</h2>
+<h3 id="%E2%96%B6-%E9%96%8B%E7%99%BA%E7%8F%BE%E5%A0%B4%E3%81%AE%E3%81%82%E3%82%8B%E3%81%82%E3%82%8B">▶ 開発現場のあるある</h3>
+<ul>
+<li>「自分の環境では動いたんだけど…」</li>
+<li>開発環境・本番環境の違いによる不具合</li>
+<li>セットアップに時間がかかる</li>
+</ul>
+<h3 id="%E2%96%B6-docker%E3%82%92%E4%B8%80%E8%A8%80%E3%81%A7%E8%AA%AC%E6%98%8E%E3%81%99%E3%82%8B%E3%81%A8">▶ Dockerを一言で説明すると...</h3>
+<blockquote>
+<p><strong>「アプリケーションとその動作環境を一つのパッケージ（コンテナ）として実行できる技術」</strong></p>
+</blockquote>
+<hr>
+<h2 id="1-2-docker%E3%81%8C%E8%A7%A3%E6%B1%BA%E3%81%99%E3%82%8B%E5%95%8F%E9%A1%8C">1-2. Dockerが解決する問題</h2>
+<table>
+<thead>
+<tr>
+<th>課題</th>
+<th>Docker導入後</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>環境差異によるバグ</td>
+<td>同じイメージでどこでも動く</td>
+</tr>
+<tr>
+<td>複雑な開発環境の構築</td>
+<td>Dockerfileで一発再現</td>
+</tr>
+<tr>
+<td>サーバー構成のドキュメント不足</td>
+<td>実行環境がコードとして明示的</td>
+</tr>
+<tr>
+<td>テスト環境の準備が面倒</td>
+<td>テスト用コンテナで即起動</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-3-docker%E3%81%AE%E4%B8%AD%E8%BA%AB%E3%81%A9%E3%81%86%E3%82%84%E3%81%A3%E3%81%A6%E5%8B%95%E3%81%8F">1-3. Dockerの中身：どうやって動く？</h2>
+<h3 id="%E4%B8%BB%E3%81%AA%E6%A7%8B%E6%88%90%E8%A6%81%E7%B4%A0">主な構成要素</h3>
+<ul>
+<li>
+<p><strong>イメージ（Image）</strong><br>
+アプリとその環境を一体化した&quot;設計図&quot;</p>
+</li>
+<li>
+<p><strong>コンテナ（Container）</strong><br>
+イメージを実行した実体。軽量な仮想環境。</p>
+</li>
+<li>
+<p><strong>Dockerfile</strong><br>
+イメージを自動で作るためのレシピ。</p>
+</li>
+<li>
+<p><strong>Docker Engine</strong><br>
+コンテナを動かす仕組みそのもの。</p>
+</li>
+</ul>
+<hr>
+<h2 id="1-4-%E4%BB%AE%E6%83%B3%E3%83%9E%E3%82%B7%E3%83%B3%E3%81%A8%E3%81%AE%E9%81%95%E3%81%84">1-4. 仮想マシンとの違い</h2>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>仮想マシン (VM)</th>
+<th>Docker（コンテナ）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>起動時間</td>
+<td>数十秒～数分</td>
+<td>数秒</td>
+</tr>
+<tr>
+<td>オーバーヘッド</td>
+<td>高い（OSごと仮想化）</td>
+<td>少ない（ホストOSを共用）</td>
+</tr>
+<tr>
+<td>イメージサイズ</td>
+<td>GB単位が多い</td>
+<td>MB～数百MB</td>
+</tr>
+<tr>
+<td>使用用途</td>
+<td>完全な仮想環境が必要なとき</td>
+<td>軽量な環境分離が必要なとき</td>
+</tr>
+</tbody>
+</table>
+<p>➡ <strong>Dockerは「速い・軽い・手軽」な仮想環境</strong></p>
+<hr>
+<h2 id="1-5-%E3%81%AA%E3%81%9C%E4%BB%8Adocker%E3%81%8C%E6%B5%81%E8%A1%8C%E3%82%8A%E3%81%AA%E3%81%AE%E3%81%8B">1-5. なぜ今Dockerが流行りなのか？</h2>
+<ul>
+<li>
+<p><strong>クラウド時代との相性◎</strong><br>
+→ AWS, GCP, Azureなど各社が対応</p>
+</li>
+<li>
+<p><strong>CI/CDパイプラインでの活用</strong><br>
+→ 開発→テスト→本番 すべてDockerで</p>
+</li>
+<li>
+<p><strong>インフラエンジニアだけでなく、全ての開発者に役立つ</strong></p>
+</li>
+</ul>
+<hr>
+<h2 id="1-6-%E7%8F%BE%E5%A0%B4%E3%81%A7%E3%81%AE%E4%BD%BF%E3%82%8F%E3%82%8C%E6%96%B9%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8">1-6. 現場での使われ方（イメージ）</h2>
+<ul>
+<li><strong>開発環境の統一</strong>：新しいメンバーも<code>docker-compose up</code>で即参入</li>
+<li><strong>マイクロサービス構築</strong>：複数サービスをコンテナで管理</li>
+<li><strong>自動テスト環境の構築</strong>：毎回クリーンな状態でテスト実行</li>
+<li><strong>スケーラブルな本番環境</strong>：Kubernetesと連携して自動スケーリング</li>
+</ul>
+<hr>
+<h2 id="1-7-%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%AA%A4%E8%A7%A3">1-7. よくある誤解</h2>
+<ul>
+<li>❌ DockerはVMの代わり → 違います！より<strong>軽量で目的が違う</strong></li>
+<li>❌ Dockerを使えばセキュリティ万全 → セキュリティ設計は別途必要</li>
+<li>❌ 難しそう → 基本操作だけなら<strong>数コマンドで始められる</strong></li>
+</ul>
+<hr>
+<h2 id="1-8-docker%E3%82%92%E3%81%A9%E3%81%86%E6%B4%BB%E3%81%8B%E3%81%99">1-8. dockerをどう活かす？</h2>
+<ul>
+<li>自分のアプリをDocker化してポートフォリオに</li>
+<li>チームで共通環境をDockerで構築・共有</li>
+<li>今後の「Kubernetes」「CI/CD」「クラウド活用」にスムーズにつながる</li>
+</ul>
+<hr>
+<h2 id="1-9-%E6%A6%82%E8%A6%81%E3%81%BE%E3%81%A8%E3%82%81">1-9 概要まとめ</h2>
+<ul>
+<li>Dockerはアプリ＋その環境をひとまとめにして動かす技術</li>
+<li>軽量・高速・再現性が高く、現代の開発スタイルにマッチ</li>
+<li>小規模でも導入メリットあり！まずは「触ってみる」ことが第一歩</li>
+</ul>
+<hr>
+<h2 id="1-10-%E4%B8%8A%E7%B4%9A%E8%80%85%E5%90%91%E3%81%91">1-10. 上級者向け</h2>
+<p>さらにDockerの内部構造まで理解したい方向けに、上級者向けパートを用意しました。(時間の都合上プレゼンでは扱いません)</p>
+<hr>
+<h3 id="%E2%96%B6-1-10-1-docker%E3%81%AE%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E4%BB%95%E7%B5%84%E3%81%BF">▶ 1-10-1. Dockerのネットワーク仕組み</h3>
+<p>Dockerでは、コンテナ同士やホストとの通信を<strong>仮想ネットワーク</strong>で管理しています。</p>
+<table>
+<thead>
+<tr>
+<th>種類</th>
+<th>特徴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bridge（デフォルト）</td>
+<td>同一ホスト内コンテナ同士の通信に利用</td>
+</tr>
+<tr>
+<td>host</td>
+<td>ホストマシンのネットワークをそのまま使う</td>
+</tr>
+<tr>
+<td>none</td>
+<td>ネットワークに接続しない（完全隔離）</td>
+</tr>
+<tr>
+<td>overlay</td>
+<td>複数ホスト間でネットワークを構成（Swarmなど）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="%F0%9F%94%B9-%E3%82%88%E3%81%8F%E4%BD%BF%E3%81%86%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89">🔹 よく使うコマンド</h4>
+<ul>
+<li>
+<p>ネットワーク一覧を表示</p>
+<pre class="hljs"><code><div>docker network ls
+
+</div></code></pre>
+</li>
+<li>
+<p>新しいネットワークを作成</p>
+</li>
+</ul>
+<pre class="hljs"><code><div>docker network create my-network
+</div></code></pre>
+<ul>
+<li>コンテナ起動時にネットワークを指定</li>
+</ul>
+<pre class="hljs"><code><div>docker run --network=my-network my-container
+</div></code></pre>
+<hr>
+<h3 id="%E2%96%B6-1-10-2-docker%E3%81%AE%E3%83%87%E3%83%BC%E3%83%A2%E3%83%B3%E3%81%A8%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E3%82%A2%E3%83%BC%E3%82%AD%E3%83%86%E3%82%AF%E3%83%81%E3%83%A3">▶ 1-10-2. Dockerのデーモンとクライアントアーキテクチャ</h3>
+<p>Dockerは<strong>クライアント-サーバーアーキテクチャ</strong>を採用して動いています。<br>
+ユーザーがコマンドを打つだけでコンテナが作られるのは、裏側でデーモンがリクエストを受け取って動いているためです。</p>
+<hr>
+<h4 id="%F0%9F%94%B9-%E3%82%A2%E3%83%BC%E3%82%AD%E3%83%86%E3%82%AF%E3%83%81%E3%83%A3%E3%81%AE%E5%9F%BA%E6%9C%AC%E6%A7%8B%E6%88%90">🔹 アーキテクチャの基本構成</h4>
+<table>
+<thead>
+<tr>
+<th>役割</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Docker CLI</td>
+<td>ユーザーが操作するコマンドラインツール (<code>docker run</code>など)</td>
+</tr>
+<tr>
+<td>Docker Daemon</td>
+<td>バックグラウンドで動き、コンテナやイメージを実際に管理するサーバープロセス</td>
+</tr>
+<tr>
+<td>Docker API</td>
+<td>CLIとデーモンの間で通信を行う仕組み。UNIXソケットやTCPで接続される</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="%F0%9F%94%B9-%E9%80%9A%E4%BF%A1%E3%81%AE%E6%B5%81%E3%82%8C">🔹 通信の流れ</h4>
+<pre class="hljs"><code><div>[ユーザー]
+  ↓ (CLIコマンド)
+[Docker CLI]
+  ↓ (APIリクエスト)
+[Docker Daemon]
+  ↓ (レスポンス)
+[Docker CLI]
+
+</div></code></pre>
+<ul>
+<li>
+<p>CLIは、Docker API経由でリクエストを送信します。</p>
+</li>
+<li>
+<p>Daemonがそのリクエストを受け取り、実際にコンテナ作成・起動・削除などを行います。</p>
+</li>
+<li>
+<p>結果をCLIに返します。</p>
+</li>
+</ul>
+<h4 id="%F0%9F%94%B9-%E3%83%87%E3%83%BC%E3%83%A2%E3%83%B3%E3%81%8C%E5%BE%85%E3%81%A1%E5%8F%97%E3%81%91%E3%82%8B%E5%A0%B4%E6%89%80">🔹 デーモンが待ち受ける場所</h4>
+<p>通常：
+/var/run/docker.sock（Unixドメインソケット）</p>
+<p>ローカルのCLIとデーモンがこのソケットを介して通信します。</p>
+<p>リモート管理時（オプション）：
+TCPポート（例：2375番ポート）</p>
+<p>設定により、リモートマシンのDockerデーモンを直接操作することも可能です。</p>
+<h4 id="%F0%9F%94%B9-%E3%83%87%E3%83%BC%E3%83%A2%E3%83%B3%E3%81%A8%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3">🔹 デーモンとセキュリティ</h4>
+<p>/var/run/docker.sock にアクセスできるユーザーは、root権限と同等と見なされます。</p>
+<p>セキュリティ上、アクセス制御（dockerグループ管理やRootlessモード）を設定することが推奨されます。</p>
+<h3 id="%E2%96%B6-1-10-3-%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E3%81%AE%E3%83%A9%E3%82%A4%E3%83%95%E3%82%B5%E3%82%A4%E3%82%AF%E3%83%AB%E3%81%A8%E7%8A%B6%E6%85%8B%E7%AE%A1%E7%90%86">▶ 1-10-3. コンテナのライフサイクルと状態管理</h3>
+<p>Dockerコンテナは、ただ「起動する・停止する」だけではなく、<br>
+<strong>ライフサイクル（生成～削除までの流れ）と、それぞれの状態</strong>を持っています。</p>
+<p>これを理解すると、より正しくDockerを扱うことができるようになります。
+(2-0も参照)</p>
+<h3 id="%E2%96%B6-1-10-4-%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E3%81%AE%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E6%A7%8B%E9%80%A0">▶ 1-10-4. イメージのレイヤー構造</h3>
+<p>実のところDockerイメージは単なるファイルの塊ではなく、<br>
+<strong>レイヤー（層）構造</strong>によって成り立っています。</p>
+<hr>
+<h4 id="%F0%9F%94%B9-%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%81%A8%E3%81%AF">🔹 レイヤーとは？</h4>
+<ul>
+<li><strong>Dockerfileの各命令（FROM、RUN、COPYなど）ごとにレイヤーが作られる</strong></li>
+<li>レイヤーは読み取り専用</li>
+<li>変更があった場合は、新しいレイヤーが上に積み重なる</li>
+</ul>
+<hr>
+<h4 id="%F0%9F%94%B9-%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF%E5%9B%B3%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8">🔹 レイヤーの仕組み図（イメージ）</h4>
+<pre class="hljs"><code><div>[ ベースイメージ ]   ← FROM
+      ↓
+[ パッケージインストール ]   ← RUN apt install
+      ↓
+[ アプリケーションファイル ] ← COPY . .
+      ↓
+[ 最終レイヤー：完成したイメージ ]
+
+
+</div></code></pre>
+<p>🔹 レイヤーを見るコマンド
+イメージのレイヤー構造を確認するには：</p>
+<pre class="hljs"><code><div>docker history &lt;イメージIDまたはイメージ名&gt;
+</div></code></pre>
+<p>例：</p>
+<pre class="hljs"><code><div>docker history my-next-app
+</div></code></pre>
+<p>どのコマンドがどのレイヤーを作ったか、サイズ・日時と共に表示されます。</p>
+<h4 id="%F0%9F%94%B9-%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%81%AE%E5%8A%B9%E6%9E%9C">🔹 レイヤーキャッシュの効果</h4>
+<p>Dockerは過去に作成したレイヤーをキャッシュします。</p>
+<p>変更がないレイヤーは再ビルドせずに流用されるため、ビルドが圧倒的に速くなります。</p>
+<h4 id="%F0%9F%94%B9-%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E6%9C%80%E9%81%A9%E5%8C%96%E3%81%AE%E3%82%B3%E3%83%84">🔹 レイヤー最適化のコツ</h4>
+<p>頻繁に変わるもの（ソースコード）は最後にCOPYする</p>
+<p>依存パッケージインストール (npm install など) はなるべく早い段階で実行する</p>
+<p>不要ファイルはビルドに含めない（.dockerignoreを活用）</p>
+<p>最適化例：</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># 悪い例（全部まとめてコピー）</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> . .</span>
+
+<span class="hljs-comment"># 良い例（package.jsonだけ先にコピーして依存インストール）</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> package*.json ./</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> npm install</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> . .</span>
+</div></code></pre>
+<h1 id="2-0-docker-%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E4%B8%80%E8%A6%A7">2-0 Docker コマンド一覧</h1>
+<p>実演パートに入る前にdockerのコマンドを確認します</p>
+<h2 id="%F0%9F%93%A6-%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E9%96%A2%E9%80%A3%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89">📦 イメージ関連コマンド</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">コマンド</th>
+<th style="text-align:left">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>docker pull &lt;イメージ名&gt;</code></td>
+<td style="text-align:left">イメージをリポジトリから取得</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker build -t &lt;イメージ名&gt; .</code></td>
+<td style="text-align:left">Dockerfileからイメージをビルド</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker images</code></td>
+<td style="text-align:left">ローカルにあるイメージ一覧を表示</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker rmi &lt;イメージID&gt;</code></td>
+<td style="text-align:left">イメージを削除</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker tag &lt;元イメージ&gt; &lt;新しいタグ&gt;</code></td>
+<td style="text-align:left">イメージに新しいタグを付ける</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%F0%9F%9B%A0%EF%B8%8F-%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E6%93%8D%E4%BD%9C%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89">🛠️ コンテナ操作コマンド</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">コマンド</th>
+<th style="text-align:left">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>docker run -it &lt;イメージ名&gt;</code></td>
+<td style="text-align:left">コンテナを起動（対話モード）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker run -d &lt;イメージ名&gt;</code></td>
+<td style="text-align:left">コンテナをバックグラウンド起動</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker ps</code></td>
+<td style="text-align:left">起動中のコンテナ一覧を表示</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker ps -a</code></td>
+<td style="text-align:left">すべてのコンテナを表示</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker start &lt;コンテナID&gt;</code></td>
+<td style="text-align:left">コンテナを開始</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker stop &lt;コンテナID&gt;</code></td>
+<td style="text-align:left">コンテナを停止</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker restart &lt;コンテナID&gt;</code></td>
+<td style="text-align:left">コンテナを再起動</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker rm &lt;コンテナID&gt;</code></td>
+<td style="text-align:left">コンテナを削除</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker exec -it &lt;コンテナID&gt; /bin/sh</code></td>
+<td style="text-align:left">コンテナ内でシェルを起動</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker logs &lt;コンテナID&gt;</code></td>
+<td style="text-align:left">コンテナのログを表示</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%F0%9F%93%A1-%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E9%96%A2%E9%80%A3%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89">📡 ネットワーク関連コマンド</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">コマンド</th>
+<th style="text-align:left">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>docker network ls</code></td>
+<td style="text-align:left">ネットワーク一覧を表示</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker network create &lt;ネットワーク名&gt;</code></td>
+<td style="text-align:left">新しいネットワークを作成</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker network inspect &lt;ネットワーク名&gt;</code></td>
+<td style="text-align:left">ネットワークの詳細を表示</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker network rm &lt;ネットワーク名&gt;</code></td>
+<td style="text-align:left">ネットワークを削除</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%F0%9F%92%BE-%E3%83%9C%E3%83%AA%E3%83%A5%E3%83%BC%E3%83%A0%E9%96%A2%E9%80%A3%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89">💾 ボリューム関連コマンド</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">コマンド</th>
+<th style="text-align:left">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>docker volume ls</code></td>
+<td style="text-align:left">ボリューム一覧を表示</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker volume create &lt;ボリューム名&gt;</code></td>
+<td style="text-align:left">新しいボリュームを作成</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker volume inspect &lt;ボリューム名&gt;</code></td>
+<td style="text-align:left">ボリュームの詳細を表示</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker volume rm &lt;ボリューム名&gt;</code></td>
+<td style="text-align:left">ボリュームを削除</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%F0%9F%A7%B9-%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%A2%E3%83%83%E3%83%97%E7%B3%BB%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89">🧹 クリーンアップ系コマンド</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">コマンド</th>
+<th style="text-align:left">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>docker system prune</code></td>
+<td style="text-align:left">未使用のコンテナ・イメージ・ネットワークを一括削除</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker container prune</code></td>
+<td style="text-align:left">停止中のコンテナを削除</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker image prune</code></td>
+<td style="text-align:left">未使用イメージを削除</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker volume prune</code></td>
+<td style="text-align:left">未使用ボリュームを削除</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>docker network prune</code></td>
+<td style="text-align:left">未使用ネットワークを削除</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="%E2%9C%85-%E3%81%BE%E3%81%A8%E3%82%81">✅ まとめ</h1>
+<ul>
+<li><strong>イメージ関連</strong>：pull, build, images, rmi, tag</li>
+<li><strong>コンテナ関連</strong>：run, ps, start, stop, rm, exec, logs</li>
+<li><strong>ネットワーク関連</strong>：network create/ls/inspect/rm</li>
+<li><strong>ボリューム関連</strong>：volume create/ls/inspect/rm</li>
+<li><strong>クリーンアップ</strong>：system prune などで一括掃除！</li>
+</ul>
+<h1 id="%EF%BC%92%E7%AB%A0docker%E5%AE%9F%E6%BC%94">２章Docker実演</h1>
+<h2 id="%F0%9F%8E%AF-%E5%AE%9F%E6%BC%94%E3%81%AE%E7%9B%AE%E7%9A%84">🎯 実演の目的</h2>
+<ul>
+<li>macOS上でNext.jsアプリをDocker化して起動</li>
+<li>DebianサーバーにDockerでデプロイ</li>
+<li>クライアントとサーバーの環境差を吸収できることを確認</li>
+</ul>
+<hr>
+<h2 id="2-1-%E5%89%8D%E6%8F%90%E7%92%B0%E5%A2%83">2-1. 前提環境</h2>
+<h3 id="%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88macos">クライアント（macOS）</h3>
+<ul>
+<li>Docker Desktop インストール済み</li>
+<li>VSCode推奨</li>
+</ul>
+<h3 id="%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BCdebian">サーバー（Debian）</h3>
+<ul>
+<li>Docker + Docker Compose インストール済み</li>
+<li>SSH接続できる状態</li>
+</ul>
+<hr>
+<h2 id="2-2-%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E4%BD%9C%E6%88%90macos%E4%B8%8A">2-2. プロジェクト作成（macOS上）</h2>
+<pre class="hljs"><code><div>npx create-next-app my-next-app
+<span class="hljs-built_in">cd</span> my-next-app
+
+</div></code></pre>
+<h2 id="2-3-dockerfile%E3%81%AE%E4%BD%9C%E6%88%90">2-3. Dockerfileの作成</h2>
+<p>Next.jsアプリをDockerで動かすには、まず <code>Dockerfile</code> を用意します。</p>
+<p>このファイルでは、アプリをどういう環境で、どんな手順でセットアップし、どのコマンドで起動するかを記述します。</p>
+<p>以下がDockerfile</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Node.jsの軽量版イメージをベースにする（alpineは最小構成）</span>
+<span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine
+
+<span class="hljs-comment"># アプリケーションを配置するディレクトリを作成</span>
+<span class="hljs-keyword">WORKDIR</span><span class="bash"> /app</span>
+
+<span class="hljs-comment"># パッケージ定義ファイルをコピー</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> package*.json ./</span>
+
+<span class="hljs-comment"># 依存関係をインストール</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> npm install</span>
+
+<span class="hljs-comment"># 残りのアプリケーションのコードを全てコピー</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> . .</span>
+
+<span class="hljs-comment"># アプリが使用するポート（Next.jsのデフォルトは3000）</span>
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">3000</span>
+
+<span class="hljs-comment"># アプリを開発モードで起動</span>
+<span class="hljs-keyword">CMD</span><span class="bash"> [<span class="hljs-string">"npm"</span>, <span class="hljs-string">"run"</span>, <span class="hljs-string">"dev"</span>]</span>
+
+</div></code></pre>
+<h2 id="2-4-dockerignore%E3%81%AE%E4%BD%9C%E6%88%90">2-4 dockerignoreの作成</h2>
+<p>.dockerignore ファイルは、Dockerに「コピーしなくていいファイル」を指示するためのファイルです。</p>
+<p>特に開発中は node_modules や .next ディレクトリなど、イメージ内に不要な一時ファイルを除外してビルドを軽量に保ちます。</p>
+<h2 id="2-5-docker%E3%81%A7%E3%83%93%E3%83%AB%E3%83%89%EF%BC%86%E5%AE%9F%E8%A1%8C%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%ABmacos">2-5. Dockerでビルド＆実行（ローカル：macOS）</h2>
+<p>作成したDockerfileを使って、ローカルでNext.jsアプリをDockerイメージにビルドし、実行します。</p>
+<h3 id="%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E3%81%AE%E3%83%93%E3%83%AB%E3%83%89">イメージのビルド</h3>
+<pre class="hljs"><code><div>docker build -t my-next-app .
+</div></code></pre>
+<p>コンテナの起動</p>
+<pre class="hljs"><code><div>docker run -p 3000:3000 my-next-app
+-p 3000:3000：ホストの3000番ポートを、コンテナの3000番ポートにマッピングします。
+</div></code></pre>
+<p>ブラウザで以下にアクセスして確認：
+http://localhost:3000</p>
+<h2 id="2-6-docker-compose%E3%81%AE%E5%B0%8E%E5%85%A5">2-6. Docker Composeの導入</h2>
+<p>Docker Composeを使うと、複数の設定（ビルド・ポート・ボリューム・環境変数など）をdocker-compose.ymlファイルで一括管理できる。</p>
+<p>docker-compose.yml の作成</p>
+<pre class="hljs"><code><div>version: &quot;3.8&quot;
+
+services:
+  web:
+    build: .
+    ports:
+      - &quot;3000:3000&quot;
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+
+</div></code></pre>
+<p>docker-composeの起動</p>
+<pre class="hljs"><code><div>docker compose up
+</div></code></pre>
+<h2 id="2-7-%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%B8%E3%81%AE%E3%83%87%E3%83%97%E3%83%AD%E3%82%A4">2-7 サーバーへのデプロイ</h2>
+<p>ローカルで作成したプロジェクトを、Debianサーバーに転送してデプロイします。</p>
+<pre class="hljs"><code><div>scp -r ./my-next-app username@&lt;サーバーIP&gt;:/home/username/
+
+</div></code></pre>
+<p>注:SCPコマンドはSecureShellプロトコルを利用してデータを転送するコマンドです。(-r：ディレクトリを再帰的にコピー)(username@&lt;サーバーIP&gt;：ログインユーザーとサーバーIPを指定)</p>
+<h2 id="2-8-%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E4%B8%8A%E3%81%A7docker-compose%E3%81%AB%E3%82%88%E3%82%8B%E8%B5%B7%E5%8B%95">2-8 サーバー上でDocker Composeによる起動</h2>
+<p>SSHでサーバーにログイン</p>
+<pre class="hljs"><code><div>ssh username@&lt;サーバーIP&gt;
+</div></code></pre>
+<p>プロジェクトフォルダに移動し、起動</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">cd</span> /home/username/my-next-app
+docker compose up -d
+</div></code></pre>
+<h2 id="2-9-%E5%A4%96%E9%83%A8%E3%81%8B%E3%82%89%E3%81%AE%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D">2-9 外部からの動作確認</h2>
+<p>ブラウザで次のURLにアクセスして、サーバー上のNext.jsアプリが動作しているか確認します</p>
+<ul>
+<li>http://&lt;サーバーIP&gt;:3000</li>
+</ul>
+<h2 id="2-10-%E6%9C%AC%E7%95%AA%E7%94%A8dockerfile%E3%81%AE%E6%9B%B8%E3%81%8D%E6%8F%9B%E3%81%88%E4%BB%BB%E6%84%8F">2-10. 本番用Dockerfileの書き換え（任意）</h2>
+<p>開発モード（<code>npm run dev</code>）では、</p>
+<ul>
+<li>自動リロード</li>
+<li>開発者向けログ出力
+など、開発に便利な機能が有効になっています。</li>
+</ul>
+<p>しかし本番環境では、</p>
+<ul>
+<li>高速な応答</li>
+<li>セキュリティ向上</li>
+<li>安定稼働
+を重視するため、<strong>ビルド済みのコードを「本番モード」で起動</strong>する必要があります。</li>
+</ul>
+<p>そのため、本番向けにDockerfileを<strong>マルチステージビルド</strong>形式に書き換えます。</p>
+<hr>
+<h3 id="%F0%9F%8E%AF-%E6%9C%AC%E7%95%AA%E7%94%A8dockerfile%E5%AE%8C%E6%88%90%E5%BD%A2">🎯 本番用Dockerfile（完成形）</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># --- ビルドステージ ---</span>
+<span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine AS builder
+
+<span class="hljs-keyword">WORKDIR</span><span class="bash"> /app</span>
+
+<span class="hljs-comment"># package.jsonとpackage-lock.jsonだけ先にコピーしてキャッシュ活用</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> package*.json ./</span>
+
+<span class="hljs-comment"># 依存関係をインストール</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> npm install</span>
+
+<span class="hljs-comment"># アプリ本体をコピー</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> . .</span>
+
+<span class="hljs-comment"># Next.jsのビルド（静的ファイルや最適化ファイルを生成）</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> npm run build</span>
+
+<span class="hljs-comment"># --- 実行ステージ（軽量） ---</span>
+<span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine
+
+<span class="hljs-keyword">WORKDIR</span><span class="bash"> /app</span>
+
+<span class="hljs-comment"># builderステージからビルド成果物をコピー</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> --from=builder /app ./</span>
+
+<span class="hljs-comment"># devDependenciesをインストールせずに、本番用依存関係だけにする</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> npm install --omit=dev</span>
+
+<span class="hljs-comment"># 環境変数で本番モードを指定</span>
+<span class="hljs-keyword">ENV</span> NODE_ENV=production
+
+<span class="hljs-comment"># Next.jsアプリが使用するポート</span>
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">3000</span>
+
+<span class="hljs-comment"># アプリを本番モードで起動</span>
+<span class="hljs-keyword">CMD</span><span class="bash"> [<span class="hljs-string">"npm"</span>, <span class="hljs-string">"start"</span>]</span>
+
+</div></code></pre>
+<p>それぞれのステップ解説<br></p>
+<h3 id="%E2%91%A0-from-node18-alpine-as-builder">① FROM node:18-alpine AS builder</h3>
+<p>ビルド専用のイメージを作成します。</p>
+<p>AS builderと名前を付けて後で参照できるようにしています。</p>
+<h3 id="%E2%91%A1-workdir-app">② WORKDIR /app</h3>
+<p>/appディレクトリを作業ディレクトリに設定します。</p>
+<p>以降の操作はすべてこの中で行われます。</p>
+<h3 id="%E2%91%A2-copy-packagejson">③ COPY package*.json ./</h3>
+<p>最初に package.json と package-lock.json だけをコピーします。</p>
+<p>これにより、依存関係のインストールをキャッシュでき、ビルド時間を短縮できます。</p>
+<h3 id="%E2%91%A3-run-npm-install">④ RUN npm install</h3>
+<p>アプリの依存パッケージをインストールします。</p>
+<p>###　⑤ COPY . .
+ソースコード全体をコピーします。</p>
+<p>この順番にすることで、もしコードだけが変更された場合でも、依存関係のインストールを再実行せずに済みます。</p>
+<h3 id="%E2%91%A5-run-npm-run-build">⑥ RUN npm run build</h3>
+<p>Next.jsアプリをビルドします。</p>
+<p>静的ファイル（HTML/CSS/JSなど）や最適化ファイルが .next/ フォルダに生成されます。</p>
+<h3 id="%E2%91%A6-%E6%9C%AC%E7%95%AA%E7%94%A8%E5%AE%9F%E8%A1%8C%E3%82%B9%E3%83%86%E3%83%BC%E3%82%B8%E3%81%AB%E5%88%87%E3%82%8A%E6%9B%BF%E3%81%88">⑦ 本番用実行ステージに切り替え</h3>
+<p>軽量化のため、ビルドとは別のクリーンなコンテナイメージを使います。</p>
+<h3 id="%E2%91%A7-copy---frombuilder-app">⑧ COPY --from=builder /app ./</h3>
+<p>ビルド成果物（アプリ全体）をコピーします。</p>
+<p>開発時にしか使わない一時ファイルなどは含まれません。</p>
+<h3 id="%E2%91%A8-run-npm-install---omitdev">⑨ RUN npm install --omit=dev</h3>
+<p>本番環境に不要な devDependencies をインストールしないことで、イメージをさらに軽量化します。</p>
+<h3 id="%E2%91%A9-env-nodeenvproduction">⑩ ENV NODE_ENV=production</h3>
+<p>環境変数で「本番モード」を明示します。</p>
+<p>本番用にNext.jsやNode.jsの挙動が最適化されます。</p>
+<h3 id="%E2%91%AA-expose-3000">⑪ EXPOSE 3000</h3>
+<p>Next.jsはデフォルトで3000番ポートを使用します。</p>
+<p>これによりDockerが外部公開するポートを認識します。</p>
+<h3 id="%E2%91%AB-cmd-%22npm%22-%22start%22">⑫ CMD [&quot;npm&quot;, &quot;start&quot;]</h3>
+<p>npm startはnext startを呼び出し、ビルド済みアプリを本番モードで起動します。</p>
+<h2 id="2-11-%E4%B8%8A%E7%B4%9A%E8%80%85%E5%90%91%E3%81%91-nginx%E3%82%82%E4%B8%80%E7%B7%92%E3%81%AB%E8%B5%B7%E5%8B%95%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B">2-11 上級者向け　NGINXも一緒に起動してみる</h2>
+<p>次に</p>
+<ul>
+<li>Next.js（本番モード）</li>
+<li>Nginx（リバースプロキシ＋静的配信）<br>
+を一緒に起動する流れをカバーします。
+(複数のアプリを起動することで本番に近い環境でdockerを利用できます。)</li>
+</ul>
+<h3 id="%F0%9F%8E%AF-%E3%82%B4%E3%83%BC%E3%83%AB">🎯 ゴール</h3>
+<ul>
+<li>Next.js本番用アプリをDockerコンテナで動かす</li>
+<li>その前段にNginxを置き、リバースプロキシとしてHTTPS/ポート番号非表示対応を可能にする</li>
+<li><strong>複数サービスをDocker Composeでまとめて起動・管理する</strong></li>
+</ul>
+<h3 id="%F0%9F%93%81-%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%A7%8B%E6%88%90%E4%BE%8B">📁 プロジェクト構成例</h3>
+<pre class="hljs"><code><div>my-next-app/
+├── Dockerfile
+├── docker-compose.yml
+├── nginx/
+│   └── default.conf
+├── package.json
+├── next.config.js
+├── その他のNext.jsファイル
+</div></code></pre>
+<h3 id="%E2%91%A0nextjs%E7%94%A8%E3%81%AEdockerfile%E4%BD%9C%E6%88%90">①.NEXT.js用のdockerfile作成</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># --- ビルドフェーズ ---</span>
+<span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine AS builder
+
+<span class="hljs-keyword">WORKDIR</span><span class="bash"> /app</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> package*.json ./</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> npm install</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> . .</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> npm run build</span>
+
+<span class="hljs-comment"># --- 実行フェーズ ---</span>
+<span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine
+
+<span class="hljs-keyword">WORKDIR</span><span class="bash"> /app</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> --from=builder /app ./</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> npm install --omit=dev</span>
+
+<span class="hljs-keyword">ENV</span> NODE_ENV=production
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">3000</span>
+<span class="hljs-keyword">CMD</span><span class="bash"> [<span class="hljs-string">"npm"</span>, <span class="hljs-string">"start"</span>]</span>
+</div></code></pre>
+<h3 id="%E2%91%A1-nginx%E8%A8%AD%E5%AE%9A%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7%E8%A8%AD%E5%AE%9A">② Nginx設定ファイル（リバースプロキシ設定）</h3>
+<p>ファイル名：nginx/default.conf</p>
+<pre class="hljs"><code><div>server {
+    listen 80;
+
+    server_name _;
+
+    location / {
+        proxy_pass http://web:3000;　＃nextのポート番号
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+</div></code></pre>
+<p>注:コンテナ間通信なので、localhostではなくサービス名webを指定します。</p>
+<h3 id="%E2%91%A2-docker-composeyml%E3%81%AE%E4%BD%9C%E6%88%90">③ docker-compose.ymlの作成</h3>
+<pre class="hljs"><code><div>
+services:
+  web:
+    build: .
+    container_name: nextjs_app
+    expose:
+      - &quot;3000&quot; # 内部だけで公開する
+    environment:
+      - NODE_ENV=production
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    ports:
+      - &quot;80:80&quot;
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - web
+</div></code></pre>
+<h3 id="%E2%91%A3-%E8%B5%B7%E5%8B%95%E6%96%B9%E6%B3%95">④ 起動方法</h3>
+<p>プロジェクトディレクトリで実行：</p>
+<pre class="hljs"><code><div>docker compose up -d
+</div></code></pre>
+<p>これでWEBアプリが配信できる。</p>
+
+</body>
+</html>
