@@ -64,7 +64,6 @@ Dockerがどう動いているのか？
 ```
 
 
-
 ## 1-3. 仮想マシンとの違い
 
 | 比較項目           | 仮想マシン (VM)           | Docker（コンテナ）       |
@@ -137,7 +136,18 @@ Dockerを使えば、本番環境へのデプロイもDockerイメージで統�
 - **Docker Engine**  
   コンテナを動かす仕組みそのもの。
 
----
+### ▶ 例えると...
+あなたは唐揚げ定食のお店(**webアプリケーション**)を経営しています。しかしお客さんがとても増えて待たせてしまうことが多くなってしまいました。また、他の地域のお客さんから「近くにお店が欲しい」とよく言われるようになります。
+そこで自分のお店を暖簾分けする(**dockerコンテナを増やす**)ことにしましたが、また人気の唐揚げ定食のお店(**webアプリケーション**)を０から作ろうとなるととても大変です。
+なので、名物の唐揚げのレシピや運営のノウハウをまとめた秘伝の書物(**dockerfile**)をフランチャイズ店の店長(**dokerエンジン**)に渡したので、唐揚げ定食のお店のノウハウがなかった新しい店長でも簡単に運営を軌道に乗せることができるようになりました。
+
+
+#### ちなみにk8sの話を付け加えると...
+そんな感じであなたは唐揚げ定食のお店を全国で１００店舗以上展開する大規模なチェーンを築き上げました。ここまで大規模になると個人で管理しきれる規模ではないので、会社を立ち上げて(**k8sを導入して**)運営しています。
+しかし、何処かの国の不動産王の政策の影響で日本全国が不況に陥ってしまい唐揚げ定食の需要が激減してしまいました。ただ幸いにもあなたを含めた経営陣はチェーン網をいち早く再編したため(**オーケストレーションを意識してコンテナを組んでいたため**)リストラは発生してしまいましたが、何処かの「突然出てきそうな店名のステーキ店」のように経営危機に落ちいることは回避できました。
+
+
+
 
 ## 1-7. よくある誤解
 
@@ -933,3 +943,95 @@ docker compose up -d
 ```
 これでWEBアプリが配信できる。
 
+# 3章　まとめ
+
+## 3‑1. 本日のゴールは達成できましたか？
+以下のポイントを自分の言葉で説明できれば **合格** です。
+
+- Docker が解決する "動く環境格差" の課題と、仮想マシンとの本質的な違い
+- イメージ ⇢ コンテナの流れ／Dockerfile の役割
+- 開発⇢テスト⇢本番へ続く CI/CD パイプラインにおける Docker の価値
+
+
+---
+
+## 3‑2. キーコンセプト早見表
+| トピック | キーワード | 30 秒で思い出すフレーズ |
+|---|---|---|
+| **コンテナ** | `docker run` | "速い・軽い・手軽" な実行単位 |
+| **イメージ** | `docker build` | アプリ＋環境を 1 ファイルで配布 |
+| **レイヤー（上級）** | `docker history` | 変更がなければキャッシュで爆速 |
+| **ネットワーク（上級）** | `bridge / host / overlay` | コンテナ間通信の土台 |
+| **ボリューム（上級）** | `docker volume` | データ永続化の解答 |
+| **セキュリティ（上級）** | `Rootless / Trivy` | "ホストは守る、脆弱性は出さない" |
+| **オーケストレーション** | Kubernetes | "100 店舗を 1 つのダッシュボードで" |
+
+---
+
+## 3‑3. ハンズオン復習タスク
+1. **ローカル**
+   1. githubから教材を取得
+   2. `docker compose up` で Next.js を起動
+   3. ブラウザで `http://localhost:3000` を確認
+2. **本番想定**
+   1. `.env.production` を編集して機密値を設定
+   2. `docker build -t my-next-app:prod .`
+   3. `docker run -d -p 80:3000 my-next-app:prod`
+3. **セキュリティ強化（上級）**
+   1. `export DOCKER_CONTENT_TRUST=1`
+   2. `trivy image my-next-app:prod` で脆弱性スキャン
+
+---
+
+## 3‑4. つまずきポイント & 解決策
+| 症状 | よくある原因 | ワンポイント解決 |
+| --- | --- | --- |
+| コンテナが起動しない | ポート競合 / ENV ミス / イメージタグ違い | `docker logs <id>` → 原因特定 & ポート／ENV 修正 |
+| コンテナがすぐ終了する | CMD・ENTRYPOINT の typo／アプリ側エラー | `docker inspect --format '{{.State.ExitCode}}' <id>` ＋ エラーログ確認 |
+| イメージが巨大 | キャッシュ無効化 / 不要ファイル COPY | マルチステージ & `.dockerignore` で削減 |
+| ビルドが遅い | レイヤーキャッシュ無効 / ネットワーク遅延 | 依存パッケージ COPY を先頭に＋社内ミラー活用 |
+| ポートが外に出ない | `EXPOSE` 忘れ / `-p` マッピング漏れ | `docker ps --format '{{.Ports}}'` で確認し再 run |
+| 権限エラー (EACCES) | root 運用 / volume マウント時の UID 不一致 | Rootless + `USER` 指定 or `--user $(id -u)` |
+| ネットワークで通信不可 | bridge と host の混在 / firewall | `docker network inspect` で IP 確認＋`--network` 指定 |
+| volume データが消えた | 匿名ボリューム / bind mount パス違い | 名前付き volume を使い `docker volume ls` で管理 |
+| DNS 解決できない | `/etc/resolv.conf` 上書き / corporate proxy | `--dns 8.8.8.8` か Docker Desktop の DNS 設定変更 |
+| `permission denied` on docker.sock | 非 docker グループ / Rootless 未設定 | `sudo usermod -aG docker $USER` 後再ログイン |
+| Pull が遅い／失敗 | レジストリ障害 / 帯域制限 | ミラー (例 AWS ECR, GHCR) 使用＋`--platform` 明示 |
+| ログが多すぎて追えない | 無限ループ出力 / json-file ドライバ膨張 | `docker logs --tail 200 -f <id>`＋logrotate or Loki |
+---
+
+## 3‑5. 次なる一歩 
+- **CI/CD 実践**：GitHub Actions で `docker buildx` & `push` を自動化
+- **Kubernetes 入門**：minikube でローカルからクラスタ体験
+- **監視・ロギング**：Prometheus + Grafana, Loki で可 observability
+- **セキュリティ深掘り**：AppArmor/SELinux プロファイルを自作してみる
+
+### おすすめ資料集
+| カテゴリ | 資料名 & リンク（公式／主要） | ポイント | こんな時に役立つ |
+| --- | --- | --- | --- |
+| 🎓 **公式ドキュメント** | **Docker Docs** (docs.docker.com) | 最新仕様・CLI/BP解説が最速で反映 | コマンドやオプションを正確に調べたい |
+|  | **Docker Compose File v3‒v4 リファレンス** | service/volume/network など構文詳細 | Compose の書き方を迷ったとき |
+|  | **BuildKit Best Practices** | `--target` やキャッシュインポート等の高速化術 | ビルド時間を縮めたい／CI を高速化 |
+| 📚 **書籍（和・洋）** | 『**Docker/Kubernetes 開発・運用実践ガイド 第2版**』（技術評論社） | 日本語で CI/CD, セキュリティ, k8s まで網羅 | 全体像を体系的に学びたい |
+|  | **“Docker Deep Dive” 4th Ed. (Nigel Poulton)** | イメージ・ネットワーク内部の挙動まで図解 | 仕組みをしっかり腹落ちさせたい |
+|  | **“Kubernetes Patterns” (O’Reilly)** | マニフェスト設計パターンをケース別に整理 | コンテナ Orchestration に踏み出す前 |
+| 🖥 **ハンズオン** | **Play with Docker** (labs.play-with-docker.com) | ブラウザのみで 4h 無料環境 | インストール不要で即実験 |
+|  | **Katacoda “Docker for Developers”** | シナリオ型で段階学習 | 初学者が手を動かしながら覚える |
+|  | **Docker Labs** (github.com/docker/labs) | マルチステージ・Swarm 等の実践例 | 現場レベルのサンプルを探す |
+| 📺 **動画 & コース** | **CNCF / Docker YouTube** | 公式チュートリアル・会議講演が無償 | 最新トレンドや実運用事例を追う |
+|  | **Udemy「Docker & Kubernetes: The Practical Guide」(2024)** | ハンズオン＋図解 30 h 超 | フルコースで流れを一気に押さえたい |
+| 🛡 **セキュリティ** | **Docker Bench for Security** | 自動スクリプトでベンチマーク実施 | 本番運用前のセルフチェック |
+|  | **Aqua Trivy** (github.com/aquasecurity/trivy) | イメージ脆弱性・SBOM 生成 | CI 組込で脆弱性を可視化 |
+|  | **OWASP “Docker Top-10” Cheat Sheet** | 攻撃パターン別に対策 | ポリシー策定・レビュー時 |
+| 🔧 **CI/CD & 実運用** | **GitHub Actions – official Docker actions** | `build-push-action` でマルチプラットフォーム対応 | GitHub Flows にコンテナビルドを組む |
+|  | **GitLab CI/CD Templates (Docker)** | キャッシュ共有例・DCT 有効化例 | GitLab runner × Docker の最短パス |
+|  | **Jenkins “Docker Pipeline Plugin” Docs** | declarative で Build/Push/Deploy 定義 | 既存 Jenkins を生かしたい |
+| 🔍 **デバッグ & 視覚化** | **dive** (github.com/wagoodman/dive) | イメージレイヤーの容量・変更点を可視化 | 不要ファイル削減・最適化 |
+|  | **cTop / docker stats** | リアルタイムで CPU・メモリ監視 | 負荷調査・ボトルネック確認 |
+| 🤝 **コミュニティ** | **Docker Community Slack #jp** | 日本語でコア開発者に質問可 | ハマりどころを素早く相談 |
+|  | **Japan Container SIG** (connpass) | 月例勉強会／発表資料アーカイブ | 国内事例・最新アップデート共有 |
+---
+
+## 3-6　お疲れさまでした！
+
+今日得た知識を 明日からの開発環境改善 にぜひ役立ててください。

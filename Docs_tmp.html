@@ -397,57 +397,27 @@ code {
 <blockquote>
 <p><strong>「アプリケーションとその動作環境を一つのパッケージ（コンテナ）として実行できる技術」</strong></p>
 </blockquote>
+<p>...とは聞いていても、普段個人開発で使っていてあまりそのメリットを体験することはあまり多くないと思います</p>
 <hr>
-<h2 id="1-2-docker%E3%81%8C%E8%A7%A3%E6%B1%BA%E3%81%99%E3%82%8B%E5%95%8F%E9%A1%8C">1-2. Dockerが解決する問題</h2>
-<table>
-<thead>
-<tr>
-<th>課題</th>
-<th>Docker導入後</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>環境差異によるバグ</td>
-<td>同じイメージでどこでも動く</td>
-</tr>
-<tr>
-<td>複雑な開発環境の構築</td>
-<td>Dockerfileで一発再現</td>
-</tr>
-<tr>
-<td>サーバー構成のドキュメント不足</td>
-<td>実行環境がコードとして明示的</td>
-</tr>
-<tr>
-<td>テスト環境の準備が面倒</td>
-<td>テスト用コンテナで即起動</td>
-</tr>
-</tbody>
-</table>
+<h2 id="1-2-docker%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF">1-2. Dockerの仕組み</h2>
+<p>Dockerがどう動いているのか？<br>
+コンテナがどうやって作られて、動くのか？<br>
+ここでは仕組みを<strong>わかりやすく順番に説明</strong>していきます。</p>
 <hr>
-<h2 id="1-3-docker%E3%81%AE%E4%B8%AD%E8%BA%AB%E3%81%A9%E3%81%86%E3%82%84%E3%81%A3%E3%81%A6%E5%8B%95%E3%81%8F">1-3. Dockerの中身：どうやって動く？</h2>
-<h3 id="%E4%B8%BB%E3%81%AA%E6%A7%8B%E6%88%90%E8%A6%81%E7%B4%A0">主な構成要素</h3>
+<h3 id="%E2%96%B6-docker%E3%81%AF%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E3%81%A8%E3%81%84%E3%81%86%E8%BB%BD%E9%87%8F%E3%81%AA%E4%BB%AE%E6%83%B3%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%9C%E3%82%8B%E4%BB%95%E7%B5%84%E3%81%BF">▶ Dockerは「コンテナ」という軽量な仮想環境を作る仕組み</h3>
 <ul>
-<li>
-<p><strong>イメージ（Image）</strong><br>
-アプリとその環境を一体化した&quot;設計図&quot;</p>
-</li>
-<li>
-<p><strong>コンテナ（Container）</strong><br>
-イメージを実行した実体。軽量な仮想環境。</p>
-</li>
-<li>
-<p><strong>Dockerfile</strong><br>
-イメージを自動で作るためのレシピ。</p>
-</li>
-<li>
-<p><strong>Docker Engine</strong><br>
-コンテナを動かす仕組みそのもの。</p>
-</li>
+<li>Dockerは仮想マシンのようにOSごと仮想化するのではありません。</li>
+<li><strong>ホストOSのカーネルを共有しながら</strong>、アプリケーションごとに分離された実行環境（コンテナ）を作ります。</li>
 </ul>
 <hr>
-<h2 id="1-4-%E4%BB%AE%E6%83%B3%E3%83%9E%E3%82%B7%E3%83%B3%E3%81%A8%E3%81%AE%E9%81%95%E3%81%84">1-4. 仮想マシンとの違い</h2>
+<h3 id="%E2%96%B6-docker%E3%81%AE%E5%9F%BA%E6%9C%AC%E6%A7%8B%E6%88%90%E5%9B%B3%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8">▶ Dockerの基本構成図（イメージ）</h3>
+<pre class="hljs"><code><div>[ ホストOS ]
+    ↓
+[ Docker Engine（デーモン）]
+    ↓
+[ イメージ ] → [ コンテナ ]
+</div></code></pre>
+<h2 id="1-3-%E4%BB%AE%E6%83%B3%E3%83%9E%E3%82%B7%E3%83%B3%E3%81%A8%E3%81%AE%E9%81%95%E3%81%84">1-3. 仮想マシンとの違い</h2>
 <table>
 <thead>
 <tr>
@@ -481,29 +451,108 @@ code {
 </table>
 <p>➡ <strong>Dockerは「速い・軽い・手軽」な仮想環境</strong></p>
 <hr>
-<h2 id="1-5-%E3%81%AA%E3%81%9C%E4%BB%8Adocker%E3%81%8C%E6%B5%81%E8%A1%8C%E3%82%8A%E3%81%AA%E3%81%AE%E3%81%8B">1-5. なぜ今Dockerが流行りなのか？</h2>
+<h2 id="1-4-%E3%81%AA%E3%81%9C%E4%BB%8Adocker%E3%81%8C%E6%B5%81%E8%A1%8C%E3%82%8A%E3%81%AA%E3%81%AE%E3%81%8B">1-4. なぜ今Dockerが流行りなのか？</h2>
 <ul>
 <li>
-<p><strong>クラウド時代との相性◎</strong><br>
-→ AWS, GCP, Azureなど各社が対応</p>
+<p><strong>クラウド時代との相性がいい</strong><br>
+→ AWS, GCP, Azureなど各社が対応
+dockerを使えばクラウド間の環境差異を吸収したり、高速にスケーリングができる</p>
 </li>
 <li>
 <p><strong>CI/CDパイプラインでの活用</strong><br>
-→ 開発→テスト→本番 すべてDockerで</p>
+現代の開発では、コードを書いたらすぐにテストする傾向にあり、
+「問題なければ自動で本番反映」といった「自動化の流れ（CI/CD）」が当たり前になっている。
+Dockerを使えば、本番環境へのデプロイもDockerイメージで統一できる ため、一貫した自動化パイプラインが作れる。</p>
 </li>
 <li>
-<p><strong>インフラエンジニアだけでなく、全ての開発者に役立つ</strong></p>
+<p><strong>インフラエンジニアだけでなく、全ての開発者に役立つ</strong>
+個々の開発者が自分で環境構築・運用まで簡単にできるため、チーム全体で「同じ環境」を共有できるようになり、全開発者の生産性向上ツールとなっている。</p>
 </li>
 </ul>
 <hr>
-<h2 id="1-6-%E7%8F%BE%E5%A0%B4%E3%81%A7%E3%81%AE%E4%BD%BF%E3%82%8F%E3%82%8C%E6%96%B9%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8">1-6. 現場での使われ方（イメージ）</h2>
+<h2 id="1-5-%E7%8F%BE%E5%A0%B4%E3%81%A7%E3%81%AE%E4%BD%BF%E3%82%8F%E3%82%8C%E6%96%B9%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8">1-5. 現場での使われ方（イメージ）</h2>
 <ul>
 <li><strong>開発環境の統一</strong>：新しいメンバーも<code>docker-compose up</code>で即参入</li>
 <li><strong>マイクロサービス構築</strong>：複数サービスをコンテナで管理</li>
 <li><strong>自動テスト環境の構築</strong>：毎回クリーンな状態でテスト実行</li>
 <li><strong>スケーラブルな本番環境</strong>：Kubernetesと連携して自動スケーリング</li>
 </ul>
+<h3 id="%E2%96%B6%E8%B1%86%E7%9F%A5%E8%AD%98docker%E3%81%AE%E5%B0%8E%E5%85%A5%E4%BA%8B%E4%BE%8B">▶豆知識「dockerの導入事例」</h3>
+<p>実際の導入事例を見ていきます</p>
+<h4 id="docker%E5%B0%8E%E5%85%A5%E4%BA%8B%E4%BE%8B">Docker導入事例</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">企業/団体名</th>
+<th style="text-align:left">活用内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Spotify</strong></td>
+<td style="text-align:left">音楽ストリーミングサーバーやデータパイプラインをDockerコンテナ化し、開発チームごとに独立した環境を運用。環境構築スピードとデプロイの一貫性を大幅改善。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>PayPal</strong></td>
+<td style="text-align:left">アプリケーションの開発・テスト環境をDockerベースに移行し、従来の仮想マシン環境よりも90％以上の起動時間短縮。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>ADP（給与・人事サービス）</strong></td>
+<td style="text-align:left">各国ごとに異なる法律・仕様対応をコンテナ化して分離し、迅速なリリースサイクルを実現。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="kubernetes%E5%B0%8E%E5%85%A5%E4%BA%8B%E4%BE%8B">Kubernetes導入事例</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">企業/団体名</th>
+<th style="text-align:left">活用内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Airbnb</strong></td>
+<td style="text-align:left">数百種類のマイクロサービスをKubernetes上で管理。オートスケールと自動復旧による可用性向上を達成。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Pinterest</strong></td>
+<td style="text-align:left">毎日数億件以上のユーザーリクエストを処理。Kubernetesでトラフィックの急増にも自動対応できる体制を整備。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>日本経済新聞社</strong></td>
+<td style="text-align:left">記事配信システムをKubernetesへ移行。コンテンツ配信の高速化、トラフィック変動への柔軟対応を実現。</td>
+</tr>
+</tbody>
+</table>
 <hr>
+<h2 id="1-6-docker%E3%81%AE%E4%B8%AD%E8%BA%AB%E3%81%A9%E3%81%86%E3%82%84%E3%81%A3%E3%81%A6%E5%8B%95%E3%81%8F">1-6. Dockerの中身：どうやって動く？</h2>
+<h3 id="%E4%B8%BB%E3%81%AA%E6%A7%8B%E6%88%90%E8%A6%81%E7%B4%A0">主な構成要素</h3>
+<ul>
+<li>
+<p><strong>イメージ（Image）</strong><br>
+アプリとその環境を一体化した&quot;設計図&quot;</p>
+</li>
+<li>
+<p><strong>コンテナ（Container）</strong><br>
+イメージを実行した実体。軽量な仮想環境。</p>
+</li>
+<li>
+<p><strong>Dockerfile</strong><br>
+イメージを自動で作るためのレシピ。</p>
+</li>
+<li>
+<p><strong>Docker Engine</strong><br>
+コンテナを動かす仕組みそのもの。</p>
+</li>
+</ul>
+<h3 id="%E2%96%B6-%E4%BE%8B%E3%81%88%E3%82%8B%E3%81%A8">▶ 例えると...</h3>
+<p>あなたは唐揚げ定食のお店(<strong>webアプリケーション</strong>)を経営しています。しかしお客さんがとても増えて待たせてしまうことが多くなってしまいました。また、他の地域のお客さんから「近くにお店が欲しい」とよく言われるようになります。
+そこで自分のお店を暖簾分けする(<strong>dockerコンテナを増やす</strong>)ことにしましたが、また人気の唐揚げ定食のお店(<strong>webアプリケーション</strong>)を０から作ろうとなるととても大変です。
+なので、名物の唐揚げのレシピや運営のノウハウをまとめた秘伝の書物(<strong>dockerfile</strong>)をフランチャイズ店の店長(<strong>dokerエンジン</strong>)に渡したので、唐揚げ定食のお店のノウハウがなかった新しい店長でも簡単に運営を軌道に乗せることができるようになりました。</p>
+<h4 id="%E3%81%A1%E3%81%AA%E3%81%BF%E3%81%ABk8s%E3%81%AE%E8%A9%B1%E3%82%92%E4%BB%98%E3%81%91%E5%8A%A0%E3%81%88%E3%82%8B%E3%81%A8">ちなみにk8sの話を付け加えると...</h4>
+<p>そんな感じであなたは唐揚げ定食のお店を全国で１００店舗以上展開する大規模なチェーンを築き上げました。ここまで大規模になると個人で管理しきれる規模ではないので、会社を立ち上げて(<strong>k8sを導入して</strong>)運営しています。
+しかし、何処かの国の不動産王の政策の影響で日本全国が不況に陥ってしまい唐揚げ定食の需要が激減してしまいました。ただ幸いにもあなたを含めた経営陣はチェーン網をいち早く再編したため(<strong>オーケストレーションを意識してコンテナを組んでいたため</strong>)リストラは発生してしまいましたが、何処かの「突然出てきそうな店名のステーキ店」のように経営危機に落ちいることは回避できました。</p>
 <h2 id="1-7-%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%AA%A4%E8%A7%A3">1-7. よくある誤解</h2>
 <ul>
 <li>❌ DockerはVMの代わり → 違います！より<strong>軽量で目的が違う</strong></li>
@@ -522,7 +571,7 @@ code {
 <ul>
 <li>Dockerはアプリ＋その環境をひとまとめにして動かす技術</li>
 <li>軽量・高速・再現性が高く、現代の開発スタイルにマッチ</li>
-<li>小規模でも導入メリットあり！まずは「触ってみる」ことが第一歩</li>
+<li>小規模でも導入メリットあり</li>
 </ul>
 <hr>
 <h2 id="1-10-%E4%B8%8A%E7%B4%9A%E8%80%85%E5%90%91%E3%81%91">1-10. 上級者向け</h2>
@@ -686,6 +735,181 @@ TCPポート（例：2375番ポート）</p>
 <span class="hljs-keyword">RUN</span><span class="bash"> npm install</span>
 <span class="hljs-keyword">COPY</span><span class="bash"> . .</span>
 </div></code></pre>
+<h3 id="%E2%96%B6-1-10-6-docker%E3%81%AE%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">▶ 1-10-6. Dockerのセキュリティについて</h3>
+<p>Dockerは非常に便利ですが、適切なセキュリティ対策をしなければ<br>
+<strong>ホストシステムごと危険にさらすリスク</strong>があります。</p>
+<p>このセクションでは、Dockerを安全に運用するための基本知識を紹介します。</p>
+<hr>
+<h4 id="%F0%9F%94%B9-%E3%81%AA%E3%81%9Cdocker%E3%81%AE%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E3%81%8C%E9%87%8D%E8%A6%81%E3%81%AA%E3%81%AE%E3%81%8B">🔹 なぜDockerのセキュリティが重要なのか？</h4>
+<ul>
+<li>コンテナは<strong>ホストカーネルを共有</strong>しているため、<br>
+コンテナ内での攻撃がホストに影響を与えるリスクがある</li>
+<li>デフォルトでは<strong>コンテナがほぼroot権限</strong>で動く</li>
+<li>悪意あるイメージをpullすると、脆弱性を持ち込む可能性がある</li>
+</ul>
+<hr>
+<h4 id="%F0%9F%94%B9-%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E5%AF%BE%E7%AD%96%E3%81%AE%E5%9F%BA%E6%9C%AC">🔹 セキュリティ対策の基本</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">対策</th>
+<th style="text-align:left">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">公式イメージや信頼できるイメージのみ使用</td>
+<td style="text-align:left">不明な作者のイメージを使わない</td>
+</tr>
+<tr>
+<td style="text-align:left">最小権限の原則</td>
+<td style="text-align:left">コンテナに必要最低限の権限だけを与える</td>
+</tr>
+<tr>
+<td style="text-align:left">Rootlessモードの利用</td>
+<td style="text-align:left">非rootユーザーでDockerデーモンを動かす</td>
+</tr>
+<tr>
+<td style="text-align:left">Dockerfileでユーザーを指定</td>
+<td style="text-align:left"><code>USER</code>命令でroot以外のユーザーで実行する</td>
+</tr>
+<tr>
+<td style="text-align:left">ネットワークやボリュームのアクセス制御</td>
+<td style="text-align:left">不要なポート・共有ディレクトリを制限する</td>
+</tr>
+<tr>
+<td style="text-align:left">セキュリティアップデートの定期実施</td>
+<td style="text-align:left">ベースイメージ・パッケージを常に最新に保つ</td>
+</tr>
+<tr>
+<td style="text-align:left">コンテナイメージをスキャン</td>
+<td style="text-align:left">脆弱性スキャンツール（例：Trivy）を使う</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="%F0%9F%94%B9-dockerfile%E3%81%A7%E6%9C%80%E5%B0%8F%E6%A8%A9%E9%99%90%E8%A8%AD%E5%AE%9A%E3%81%AE%E4%BE%8B">🔹 Dockerfileで最小権限設定の例</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine
+
+<span class="hljs-comment"># 通常ユーザーを作成</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> addgroup -S appgroup &amp;&amp; adduser -S appuser -G appgroup</span>
+
+<span class="hljs-comment"># 作業ディレクトリ設定</span>
+<span class="hljs-keyword">WORKDIR</span><span class="bash"> /app</span>
+
+<span class="hljs-comment"># アプリをコピー</span>
+<span class="hljs-keyword">COPY</span><span class="bash"> . .</span>
+
+<span class="hljs-comment"># 権限を最小化して実行</span>
+<span class="hljs-keyword">USER</span> appuser
+
+<span class="hljs-keyword">CMD</span><span class="bash"> [<span class="hljs-string">"node"</span>, <span class="hljs-string">"app.js"</span>]</span>
+</div></code></pre>
+<ul>
+<li>USER appuserを使うことで、root権限ではなく一般ユーザーでアプリが動くようになります。</li>
+</ul>
+<h4 id="%F0%9F%94%B9-%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E3%81%AE%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E3%82%B9%E3%82%AD%E3%83%A3%E3%83%B3%E4%BE%8Btrivy">🔹 コンテナのセキュリティスキャン例（Trivy）</h4>
+<p>Trivyを使えば、イメージの脆弱性を簡単に検査できます。</p>
+<pre class="hljs"><code><div>trivy image my-next-app
+</div></code></pre>
+<p>脆弱なライブラリや設定ミスがないかチェックできます。</p>
+<p>本番運用では必ず導入を検討する必要あり。</p>
+<h3 id="%E2%96%B6-1-10-7-docker%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E8%B6%85%E5%AE%9F%E8%B7%B5%E7%B7%A8apparmorselinuxcapability%E5%88%B6%E5%BE%A1%E3%81%AA%E3%81%A9">▶ 1-10-7. Dockerセキュリティ超実践編（AppArmor/SELinux/Capability制御など）</h3>
+<p>Dockerのセキュリティをさらに強化するために、Linuxカーネルレベルでコンテナの動作を制御する技術を取り入れます。</p>
+<hr>
+<h4 id="%F0%9F%94%B9-apparmor-%E3%81%A8-selinux%E3%81%A8%E3%81%AF">🔹 AppArmor と SELinuxとは？</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">技術名</th>
+<th style="text-align:left">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">AppArmor</td>
+<td style="text-align:left">ファイルパスベースでアクセス制御を行う（Ubuntu系に標準搭載）</td>
+</tr>
+<tr>
+<td style="text-align:left">SELinux</td>
+<td style="text-align:left">セキュリティコンテキストによるアクセス制御（RHEL/CentOS系に標準搭載）</td>
+</tr>
+</tbody>
+</table>
+<p>これらを使うことで、万が一コンテナ内で侵害が発生しても、ホストシステムへの被害を最小化できます。</p>
+<hr>
+<h4 id="%F0%9F%94%B9-apparmor%E3%82%92docker%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E3%81%AB%E9%81%A9%E7%94%A8%E3%81%99%E3%82%8B%E4%BE%8B">🔹 AppArmorをDockerコンテナに適用する例</h4>
+<pre class="hljs"><code><div>docker run --security-opt apparmor=docker-default nginx
+
+</div></code></pre>
+<ul>
+<li>
+<p>docker-defaultはDocker標準の緩やかなAppArmorプロファイルです。</p>
+</li>
+<li>
+<p>独自プロファイルを作成して適用することも可能です。</p>
+</li>
+</ul>
+<h4 id="%F0%9F%94%B9-capability%E5%88%B6%E5%BE%A1%E7%B4%B0%E3%81%8B%E3%81%84%E6%A8%A9%E9%99%90%E8%A8%AD%E5%AE%9A">🔹 Capability制御（細かい権限設定）</h4>
+<p>コンテナ起動時に、必要最小限の権限だけ付与することができます。</p>
+<p>すべてのcapabilityを削除し、必要なものだけ追加する例：</p>
+<pre class="hljs"><code><div>docker run --<span class="hljs-built_in">cap</span>-drop ALL --<span class="hljs-built_in">cap</span>-add NET_BIND_SERVICE nginx
+</div></code></pre>
+<p>--cap-drop ALLですべて削除</p>
+<p>--cap-add NET_BIND_SERVICEで、80番/443番ポートバインドだけ許可</p>
+<h4 id="%E2%9C%85-%E3%81%BE%E3%81%A8%E3%82%81">✅ まとめ</h4>
+<p>カーネルレベルでの制御（AppArmor/SELinux）を使うとセキュリティが飛躍的に向上</p>
+<p>Capability管理でコンテナのシステムアクセスを必要最小限にできる</p>
+<h3 id="%E2%96%B6-1-10-8-rootless-docker%E9%81%8B%E7%94%A8%E3%81%A8%E6%9C%80%E5%B0%8F%E6%A8%A9%E9%99%90%E5%AE%9F%E8%B7%B5%E4%BE%8B">▶ 1-10-8. Rootless Docker運用と最小権限実践例</h3>
+<p>通常、Dockerデーモンはroot権限で動きます。
+しかし、本番環境では**Rootless Docker（非root運用）**を使うのが推奨されています。</p>
+<h4 id="%F0%9F%94%B9-rootless-docker%E3%81%A8%E3%81%AFbr">🔹 Rootless Dockerとは？<br></h4>
+<p>Dockerデーモンとコンテナの両方を一般ユーザー権限で動かす仕組み
+ホストシステムへの侵害リスクを大幅に低減できる</p>
+<h4 id="%F0%9F%94%B9-rootless-docker%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E4%BE%8Bubuntu">🔹 Rootless Dockerのインストール例（Ubuntu）</h4>
+<pre class="hljs"><code><div>sudo apt install docker-ce-rootless-extras
+dockerd-rootless-setuptool.sh install
+</div></code></pre>
+<p>その後、環境変数を設定してDockerコマンドを実行できるようにします。</p>
+<h4 id="%F0%9F%94%B9-%E6%9C%80%E5%B0%8F%E6%A8%A9%E9%99%90dockerfile%E5%AE%9F%E8%B7%B5%E4%BE%8B">🔹 最小権限Dockerfile実践例</h4>
+<pre class="hljs"><code><div>
+<span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine
+</div></code></pre>
+<h4 id="%E9%80%9A%E5%B8%B8%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E4%BD%9C%E6%88%90">通常ユーザー作成</h4>
+<pre class="hljs"><code><div>RUN addgroup -S appgroup &amp;&amp; adduser -S appuser -G appgroup
+
+WORKDIR /app
+
+COPY . .
+
+
+# 通常ユーザーで実行
+USER appuser
+
+CMD [&quot;node&quot;, &quot;server.js&quot;]
+</div></code></pre>
+<p>USER appuserを指定することで、コンテナ内も非rootで実行されます。</p>
+<h4 id="%E2%9C%85-%E3%81%BE%E3%81%A8%E3%82%81">✅ まとめ</h4>
+<p>Rootless Docker導入でホストセキュリティを大幅向上</p>
+<p>コンテナ内部でも最小権限ユーザー運用を徹底するべき</p>
+<p>▶ 1-10-9. Docker Content Trustとイメージ署名管理
+イメージの改ざんやなりすましを防ぐために、Dockerには**Content Trust（DCT）**機能があります。</p>
+<h4 id="%F0%9F%94%B9-docker-content-trustdct%E3%81%A8%E3%81%AF">🔹 Docker Content Trust（DCT）とは？</h4>
+<p>pullやpushを行うイメージにデジタル署名を付与/検証する仕組み</p>
+<p>改ざんされたイメージや不正なイメージを防止できる</p>
+<h4 id="%F0%9F%94%B9-dct%E3%82%92%E6%9C%89%E5%8A%B9%E5%8C%96%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95">🔹 DCTを有効化する方法</h4>
+<p>DCTを有効にするには、環境変数を設定するだけです。</p>
+<pre class="hljs"><code><div>export DOCKER_CONTENT_TRUST=1
+</div></code></pre>
+<p>その状態で、pullやpushを行うと、署名チェックが行われます。</p>
+<h4 id="%F0%9F%94%B9-%E6%B3%A8%E6%84%8F%E7%82%B9">🔹 注意点</h4>
+<p>署名未対応のリポジトリ（例：一部プライベートレジストリ）ではエラーになる</p>
+<p>本番運用では、DCT対応レジストリ（Docker Hub, Harborなど）を利用推奨</p>
+<h4 id="%E2%9C%85-%E3%81%BE%E3%81%A8%E3%82%81">✅ まとめ</h4>
+<p>Content Trustでイメージ配布時の信頼性を確保</p>
+<p>本番環境ではDCT有効化を必須にすべき</p>
+<p>pull/push前に環境変数設定を忘れずに！</p>
+<hr>
 <h1 id="2-0-docker-%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E4%B8%80%E8%A6%A7">2-0 Docker コマンド一覧</h1>
 <p>実演パートに入る前にdockerのコマンドを確認します</p>
 <h2 id="%F0%9F%93%A6-%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E9%96%A2%E9%80%A3%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89">📦 イメージ関連コマンド</h2>
@@ -1039,8 +1263,8 @@ docker compose up -d
 <p>これにより、依存関係のインストールをキャッシュでき、ビルド時間を短縮できます。</p>
 <h3 id="%E2%91%A3-run-npm-install">④ RUN npm install</h3>
 <p>アプリの依存パッケージをインストールします。</p>
-<p>###　⑤ COPY . .
-ソースコード全体をコピーします。</p>
+<h3 id="%E2%91%A4-copy">⑤ COPY . .</h3>
+<p>ソースコード全体をコピーします。</p>
 <p>この順番にすることで、もしコードだけが変更された場合でも、依存関係のインストールを再実行せずに済みます。</p>
 <h3 id="%E2%91%A5-run-npm-run-build">⑥ RUN npm run build</h3>
 <p>Next.jsアプリをビルドします。</p>
@@ -1149,6 +1373,309 @@ services:
 <pre class="hljs"><code><div>docker compose up -d
 </div></code></pre>
 <p>これでWEBアプリが配信できる。</p>
+<h1 id="3%E7%AB%A0-%E3%81%BE%E3%81%A8%E3%82%81">3章　まとめ</h1>
+<h2 id="3%E2%80%911-%E6%9C%AC%E6%97%A5%E3%81%AE%E3%82%B4%E3%83%BC%E3%83%AB%E3%81%AF%E9%81%94%E6%88%90%E3%81%A7%E3%81%8D%E3%81%BE%E3%81%97%E3%81%9F%E3%81%8B">3‑1. 本日のゴールは達成できましたか？</h2>
+<p>以下のポイントを自分の言葉で説明できれば <strong>合格</strong> です。</p>
+<ul>
+<li>Docker が解決する &quot;動く環境格差&quot; の課題と、仮想マシンとの本質的な違い</li>
+<li>イメージ ⇢ コンテナの流れ／Dockerfile の役割</li>
+<li>開発⇢テスト⇢本番へ続く CI/CD パイプラインにおける Docker の価値</li>
+</ul>
+<hr>
+<h2 id="3%E2%80%912-%E3%82%AD%E3%83%BC%E3%82%B3%E3%83%B3%E3%82%BB%E3%83%97%E3%83%88%E6%97%A9%E8%A6%8B%E8%A1%A8">3‑2. キーコンセプト早見表</h2>
+<table>
+<thead>
+<tr>
+<th>トピック</th>
+<th>キーワード</th>
+<th>30 秒で思い出すフレーズ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>コンテナ</strong></td>
+<td><code>docker run</code></td>
+<td>&quot;速い・軽い・手軽&quot; な実行単位</td>
+</tr>
+<tr>
+<td><strong>イメージ</strong></td>
+<td><code>docker build</code></td>
+<td>アプリ＋環境を 1 ファイルで配布</td>
+</tr>
+<tr>
+<td><strong>レイヤー（上級）</strong></td>
+<td><code>docker history</code></td>
+<td>変更がなければキャッシュで爆速</td>
+</tr>
+<tr>
+<td><strong>ネットワーク（上級）</strong></td>
+<td><code>bridge / host / overlay</code></td>
+<td>コンテナ間通信の土台</td>
+</tr>
+<tr>
+<td><strong>ボリューム（上級）</strong></td>
+<td><code>docker volume</code></td>
+<td>データ永続化の解答</td>
+</tr>
+<tr>
+<td><strong>セキュリティ（上級）</strong></td>
+<td><code>Rootless / Trivy</code></td>
+<td>&quot;ホストは守る、脆弱性は出さない&quot;</td>
+</tr>
+<tr>
+<td><strong>オーケストレーション</strong></td>
+<td>Kubernetes</td>
+<td>&quot;100 店舗を 1 つのダッシュボードで&quot;</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3%E2%80%913-%E3%83%8F%E3%83%B3%E3%82%BA%E3%82%AA%E3%83%B3%E5%BE%A9%E7%BF%92%E3%82%BF%E3%82%B9%E3%82%AF">3‑3. ハンズオン復習タスク</h2>
+<ol>
+<li><strong>ローカル</strong>
+<ol>
+<li>githubから教材を取得</li>
+<li><code>docker compose up</code> で Next.js を起動</li>
+<li>ブラウザで <code>http://localhost:3000</code> を確認</li>
+</ol>
+</li>
+<li><strong>本番想定</strong>
+<ol>
+<li><code>.env.production</code> を編集して機密値を設定</li>
+<li><code>docker build -t my-next-app:prod .</code></li>
+<li><code>docker run -d -p 80:3000 my-next-app:prod</code></li>
+</ol>
+</li>
+<li><strong>セキュリティ強化（上級）</strong>
+<ol>
+<li><code>export DOCKER_CONTENT_TRUST=1</code></li>
+<li><code>trivy image my-next-app:prod</code> で脆弱性スキャン</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h2 id="3%E2%80%914-%E3%81%A4%E3%81%BE%E3%81%9A%E3%81%8D%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88--%E8%A7%A3%E6%B1%BA%E7%AD%96">3‑4. つまずきポイント &amp; 解決策</h2>
+<table>
+<thead>
+<tr>
+<th>症状</th>
+<th>よくある原因</th>
+<th>ワンポイント解決</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>コンテナが起動しない</td>
+<td>ポート競合 / ENV ミス / イメージタグ違い</td>
+<td><code>docker logs &lt;id&gt;</code> → 原因特定 &amp; ポート／ENV 修正</td>
+</tr>
+<tr>
+<td>コンテナがすぐ終了する</td>
+<td>CMD・ENTRYPOINT の typo／アプリ側エラー</td>
+<td><code>docker inspect --format '{{.State.ExitCode}}' &lt;id&gt;</code> ＋ エラーログ確認</td>
+</tr>
+<tr>
+<td>イメージが巨大</td>
+<td>キャッシュ無効化 / 不要ファイル COPY</td>
+<td>マルチステージ &amp; <code>.dockerignore</code> で削減</td>
+</tr>
+<tr>
+<td>ビルドが遅い</td>
+<td>レイヤーキャッシュ無効 / ネットワーク遅延</td>
+<td>依存パッケージ COPY を先頭に＋社内ミラー活用</td>
+</tr>
+<tr>
+<td>ポートが外に出ない</td>
+<td><code>EXPOSE</code> 忘れ / <code>-p</code> マッピング漏れ</td>
+<td><code>docker ps --format '{{.Ports}}'</code> で確認し再 run</td>
+</tr>
+<tr>
+<td>権限エラー (EACCES)</td>
+<td>root 運用 / volume マウント時の UID 不一致</td>
+<td>Rootless + <code>USER</code> 指定 or <code>--user $(id -u)</code></td>
+</tr>
+<tr>
+<td>ネットワークで通信不可</td>
+<td>bridge と host の混在 / firewall</td>
+<td><code>docker network inspect</code> で IP 確認＋<code>--network</code> 指定</td>
+</tr>
+<tr>
+<td>volume データが消えた</td>
+<td>匿名ボリューム / bind mount パス違い</td>
+<td>名前付き volume を使い <code>docker volume ls</code> で管理</td>
+</tr>
+<tr>
+<td>DNS 解決できない</td>
+<td><code>/etc/resolv.conf</code> 上書き / corporate proxy</td>
+<td><code>--dns 8.8.8.8</code> か Docker Desktop の DNS 設定変更</td>
+</tr>
+<tr>
+<td><code>permission denied</code> on docker.sock</td>
+<td>非 docker グループ / Rootless 未設定</td>
+<td><code>sudo usermod -aG docker $USER</code> 後再ログイン</td>
+</tr>
+<tr>
+<td>Pull が遅い／失敗</td>
+<td>レジストリ障害 / 帯域制限</td>
+<td>ミラー (例 AWS ECR, GHCR) 使用＋<code>--platform</code> 明示</td>
+</tr>
+<tr>
+<td>ログが多すぎて追えない</td>
+<td>無限ループ出力 / json-file ドライバ膨張</td>
+<td><code>docker logs --tail 200 -f &lt;id&gt;</code>＋logrotate or Loki</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3%E2%80%915-%E6%AC%A1%E3%81%AA%E3%82%8B%E4%B8%80%E6%AD%A9">3‑5. 次なる一歩</h2>
+<ul>
+<li><strong>CI/CD 実践</strong>：GitHub Actions で <code>docker buildx</code> &amp; <code>push</code> を自動化</li>
+<li><strong>Kubernetes 入門</strong>：minikube でローカルからクラスタ体験</li>
+<li><strong>監視・ロギング</strong>：Prometheus + Grafana, Loki で可 observability</li>
+<li><strong>セキュリティ深掘り</strong>：AppArmor/SELinux プロファイルを自作してみる</li>
+</ul>
+<h3 id="%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%E8%B3%87%E6%96%99%E9%9B%86">おすすめ資料集</h3>
+<table>
+<thead>
+<tr>
+<th>カテゴリ</th>
+<th>資料名 &amp; リンク（公式／主要）</th>
+<th>ポイント</th>
+<th>こんな時に役立つ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🎓 <strong>公式ドキュメント</strong></td>
+<td><strong>Docker Docs</strong> (docs.docker.com)</td>
+<td>最新仕様・CLI/BP解説が最速で反映</td>
+<td>コマンドやオプションを正確に調べたい</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Docker Compose File v3‒v4 リファレンス</strong></td>
+<td>service/volume/network など構文詳細</td>
+<td>Compose の書き方を迷ったとき</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>BuildKit Best Practices</strong></td>
+<td><code>--target</code> やキャッシュインポート等の高速化術</td>
+<td>ビルド時間を縮めたい／CI を高速化</td>
+</tr>
+<tr>
+<td>📚 <strong>書籍（和・洋）</strong></td>
+<td>『<strong>Docker/Kubernetes 開発・運用実践ガイド 第2版</strong>』（技術評論社）</td>
+<td>日本語で CI/CD, セキュリティ, k8s まで網羅</td>
+<td>全体像を体系的に学びたい</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>“Docker Deep Dive” 4th Ed. (Nigel Poulton)</strong></td>
+<td>イメージ・ネットワーク内部の挙動まで図解</td>
+<td>仕組みをしっかり腹落ちさせたい</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>“Kubernetes Patterns” (O’Reilly)</strong></td>
+<td>マニフェスト設計パターンをケース別に整理</td>
+<td>コンテナ Orchestration に踏み出す前</td>
+</tr>
+<tr>
+<td>🖥 <strong>ハンズオン</strong></td>
+<td><strong>Play with Docker</strong> (labs.play-with-docker.com)</td>
+<td>ブラウザのみで 4h 無料環境</td>
+<td>インストール不要で即実験</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Katacoda “Docker for Developers”</strong></td>
+<td>シナリオ型で段階学習</td>
+<td>初学者が手を動かしながら覚える</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Docker Labs</strong> (github.com/docker/labs)</td>
+<td>マルチステージ・Swarm 等の実践例</td>
+<td>現場レベルのサンプルを探す</td>
+</tr>
+<tr>
+<td>📺 <strong>動画 &amp; コース</strong></td>
+<td><strong>CNCF / Docker YouTube</strong></td>
+<td>公式チュートリアル・会議講演が無償</td>
+<td>最新トレンドや実運用事例を追う</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Udemy「Docker &amp; Kubernetes: The Practical Guide」(2024)</strong></td>
+<td>ハンズオン＋図解 30 h 超</td>
+<td>フルコースで流れを一気に押さえたい</td>
+</tr>
+<tr>
+<td>🛡 <strong>セキュリティ</strong></td>
+<td><strong>Docker Bench for Security</strong></td>
+<td>自動スクリプトでベンチマーク実施</td>
+<td>本番運用前のセルフチェック</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Aqua Trivy</strong> (github.com/aquasecurity/trivy)</td>
+<td>イメージ脆弱性・SBOM 生成</td>
+<td>CI 組込で脆弱性を可視化</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>OWASP “Docker Top-10” Cheat Sheet</strong></td>
+<td>攻撃パターン別に対策</td>
+<td>ポリシー策定・レビュー時</td>
+</tr>
+<tr>
+<td>🔧 <strong>CI/CD &amp; 実運用</strong></td>
+<td><strong>GitHub Actions – official Docker actions</strong></td>
+<td><code>build-push-action</code> でマルチプラットフォーム対応</td>
+<td>GitHub Flows にコンテナビルドを組む</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>GitLab CI/CD Templates (Docker)</strong></td>
+<td>キャッシュ共有例・DCT 有効化例</td>
+<td>GitLab runner × Docker の最短パス</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Jenkins “Docker Pipeline Plugin” Docs</strong></td>
+<td>declarative で Build/Push/Deploy 定義</td>
+<td>既存 Jenkins を生かしたい</td>
+</tr>
+<tr>
+<td>🔍 <strong>デバッグ &amp; 視覚化</strong></td>
+<td><strong>dive</strong> (github.com/wagoodman/dive)</td>
+<td>イメージレイヤーの容量・変更点を可視化</td>
+<td>不要ファイル削減・最適化</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>cTop / docker stats</strong></td>
+<td>リアルタイムで CPU・メモリ監視</td>
+<td>負荷調査・ボトルネック確認</td>
+</tr>
+<tr>
+<td>🤝 <strong>コミュニティ</strong></td>
+<td><strong>Docker Community Slack #jp</strong></td>
+<td>日本語でコア開発者に質問可</td>
+<td>ハマりどころを素早く相談</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Japan Container SIG</strong> (connpass)</td>
+<td>月例勉強会／発表資料アーカイブ</td>
+<td>国内事例・最新アップデート共有</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-6-%E3%81%8A%E7%96%B2%E3%82%8C%E3%81%95%E3%81%BE%E3%81%A7%E3%81%97%E3%81%9F">3-6　お疲れさまでした！</h2>
+<p>今日得た知識を 明日からの開発環境改善 にぜひ役立ててください。</p>
 
 </body>
 </html>
